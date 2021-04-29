@@ -32,9 +32,8 @@ import okhttp3.Response;
 
 public abstract class ViewPagerAdapter extends PagerAdapter {
     private final Context context;
-    //    private int mPos = 0;
 
-    private final Integer [] vertical = {
+    private final Integer[] vertical = {
             R.drawable.african,
             R.drawable.aker,
             R.drawable.alexandr,
@@ -47,7 +46,7 @@ public abstract class ViewPagerAdapter extends PagerAdapter {
             R.drawable.sanm,
 
     };
-    private final Integer [] horizontal = {
+    private final Integer[] horizontal = {
             R.drawable.alberta,
             R.drawable.amer,
             R.drawable.dest,
@@ -99,14 +98,11 @@ public abstract class ViewPagerAdapter extends PagerAdapter {
                     .into(backgroundImage);
         }
 
-
-
         ViewPager vp = (ViewPager) container;
         vp.addView(view);
-        if(isNetworkOnline(context)) {
+        if (isNetworkOnline(context)) {
             getAdvice();
-        }
-        else {
+        } else {
             textAdvice.setText("Нет инета");
         }
 
@@ -114,12 +110,11 @@ public abstract class ViewPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public void destroyItem(@NonNull ViewGroup container, int position,@NonNull Object object) {
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
 
         ViewPager vp = (ViewPager) container;
         View view = (View) object;
         vp.removeView(view);
-
     }
 
     private String getScreenOrientation() {
@@ -137,7 +132,7 @@ public abstract class ViewPagerAdapter extends PagerAdapter {
         return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
     }
 
-    private void getAdvice(){
+    private void getAdvice() {
 
         OkHttpClient client = new OkHttpClient();
         final Request request = new Request.Builder()
@@ -150,14 +145,14 @@ public abstract class ViewPagerAdapter extends PagerAdapter {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
 
-                if(call.request().body()!=null)
-                {
+                if (call.request().body() != null) {
                     Log.d(TAG, Objects.requireNonNull(call.request().body()).toString());
                 }
 
                 ((Activity) context).runOnUiThread(() -> {
                 });
             }
+
             @Override
             public void onResponse(@NotNull Call call, @NotNull final Response response) {
                 ((Activity) context).runOnUiThread(() -> {
@@ -170,17 +165,13 @@ public abstract class ViewPagerAdapter extends PagerAdapter {
 
                         JSONObject Jobject = new JSONObject(Objects.requireNonNull(jsonData));
 
-                        Log.d(TAG,Jobject.getString("text"));
+                        Log.d(TAG, Jobject.getString("text"));
 
-
-
-//                        textView.setText(advice);
                         textAdvice.setText(Jobject.getString("text"));
-//                        advice=Jobject.getString("text");
 
                     } catch (IOException | JSONException e) {
 
-                        Log.d(TAG,"Ошибка: "+e);
+                        Log.d(TAG, "Ошибка: " + e);
                     }
                 });
             }

@@ -8,8 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 public class FullscreenActivity extends AppCompatActivity {
-    ViewPager viewPager;
 
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +21,7 @@ public class FullscreenActivity extends AppCompatActivity {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this) {
             @Override
             public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-                return false;
+                return view == object;
             }
         };
 
