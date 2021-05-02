@@ -1,11 +1,14 @@
 package com.example.fga;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
+
+import org.jetbrains.annotations.NotNull;
 
 public class FullscreenActivity extends AppCompatActivity {
 

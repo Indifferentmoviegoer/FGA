@@ -2,6 +2,7 @@ package com.example.fga;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
@@ -31,6 +32,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public abstract class ViewPagerAdapter extends PagerAdapter {
+
     private final Context context;
 
     private final Integer[] vertical = {
@@ -43,9 +45,9 @@ public abstract class ViewPagerAdapter extends PagerAdapter {
             R.drawable.narok,
             R.drawable.desert,
             R.drawable.rain,
-            R.drawable.sanm,
-
+            R.drawable.sanm
     };
+
     private final Integer[] horizontal = {
             R.drawable.alberta,
             R.drawable.amer,
@@ -56,11 +58,11 @@ public abstract class ViewPagerAdapter extends PagerAdapter {
             R.drawable.newzel,
             R.drawable.pght,
             R.drawable.picrt,
-            R.drawable.picrt,
-
+            R.drawable.picrt
     };
+
     TextView textAdvice;
-    //    String advice="Свайпни, плиз";
+
     private static final String TAG = "myLogs";
 
     public ViewPagerAdapter(Context context) {
@@ -82,15 +84,13 @@ public abstract class ViewPagerAdapter extends PagerAdapter {
 
         ImageView backgroundImage = view.findViewById(R.id.backgroundImage);
 
-        String screenOrientation = getScreenOrientation();
-        if (screenOrientation.contains("Портретная ориентация")) {
+        if (context.getResources().getConfiguration().orientation == 1) {
 
             Glide.with(this.context)
                     .load(vertical[(int) (Math.random() * 10.0d)])
                     .thumbnail(0.5f)
                     .into(backgroundImage);
-        }
-        if (screenOrientation.contains("Альбомная ориентация")) {
+        } else if (context.getResources().getConfiguration().orientation == 2) {
 
             Glide.with(this.context)
                     .load(horizontal[(int) (Math.random() * 10.0d)])
@@ -100,6 +100,7 @@ public abstract class ViewPagerAdapter extends PagerAdapter {
 
         ViewPager vp = (ViewPager) container;
         vp.addView(view);
+
         if (isNetworkOnline(context)) {
             getAdvice();
         } else {
@@ -111,17 +112,9 @@ public abstract class ViewPagerAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-
         ViewPager vp = (ViewPager) container;
         View view = (View) object;
         vp.removeView(view);
-    }
-
-    private String getScreenOrientation() {
-        if (context.getResources().getConfiguration().orientation == 1) {
-            return "Портретная ориентация";
-        }
-        return (context.getResources().getConfiguration().orientation == 2) ? "Альбомная ориентация" : null;
     }
 
     public static boolean isNetworkOnline(Context context) {
